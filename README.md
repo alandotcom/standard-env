@@ -47,7 +47,7 @@ const config = envParse(process.env, {
 });
 
 // config.server.port is number (3000)
-// config.server.nodeEnv is string ('development' | 'production' | 'test') 
+// config.server.nodeEnv is string ('development' | 'production' | 'test')
 // config.db.url is string
 // All fully typed with zero additional type definitions needed! ✨
 ```
@@ -182,7 +182,7 @@ const config = envParse(process.env, {
 
 // Result types:
 // config.server.port: number
-// config.server.debug: boolean  
+// config.server.debug: boolean
 // config.server.allowedOrigins: string[]
 // config.server.featureFlags: Record<string, boolean>
 ```
@@ -220,7 +220,7 @@ const config = envParse(process.env, {
       }
     }
   },
-  
+
   auth: {
     jwt: {
       secret: {
@@ -241,7 +241,7 @@ const config = envParse(process.env, {
       }
     }
   },
-  
+
   logging: {
     level: {
       format: type('"debug" | "info" | "warn" | "error"'),
@@ -260,7 +260,7 @@ const config = envParse(process.env, {
 // Access with clean, organized structure:
 // config.database.primary.url
 // config.database.cache.redis.url
-// config.auth.jwt.secret  
+// config.auth.jwt.secret
 // config.auth.oauth.providers
 // config.logging.level
 ```
@@ -290,7 +290,7 @@ import { z } from "zod";
 const config = envParse(process.env, {
   port: {
     format: z.string().transform(Number),
-    env: 'PORT', 
+    env: 'PORT',
   }
 });
 ```
@@ -345,7 +345,7 @@ Returns the validated and typed configuration object with inferred types.
 Each property in your config can have:
 
 - **`format`** (required): StandardSchema validator for the environment variable
-- **`env`** (required): Environment variable name to read from  
+- **`env`** (required): Environment variable name to read from
 - **`default`** (optional): Default value (must be string - will be validated by format)
 - **`optional`** (optional): If true, property will be `T | undefined` instead of `T`
 
@@ -382,7 +382,7 @@ const config = envParse(process.env, {
 });
 ```
 
-### ❌ Don't 
+### ❌ Don't
 
 ```typescript
 // Don't use non-string types in format without transformation
@@ -411,11 +411,11 @@ export const config = envParse(process.env, {
     },
     version: {
       format: type('string'),
-      default: '1.0.0', 
+      default: '1.0.0',
       env: 'APP_VERSION',
     }
   },
-  
+
   server: {
     port: {
       format: type('string.numeric.parse'),
@@ -435,7 +435,7 @@ export const config = envParse(process.env, {
       }
     }
   },
-  
+
   database: {
     url: {
       format: type('string'),
@@ -447,7 +447,7 @@ export const config = envParse(process.env, {
       env: 'DATABASE_SSL',
     }
   },
-  
+
   auth: {
     clerk: {
       secretKey: {
@@ -455,12 +455,12 @@ export const config = envParse(process.env, {
         env: 'CLERK_SECRET_KEY',
       },
       publishableKey: {
-        format: type('string'), 
+        format: type('string'),
         env: 'CLERK_PUBLISHABLE_KEY',
       }
     }
   },
-  
+
   features: {
     analytics: {
       format: type('string').pipe(s => s === 'true'),
@@ -499,7 +499,7 @@ const schema = type({
 });
 const config = parse(process.env, schema, { defaults: { PORT: 3000 } });
 
-// New way  
+// New way
 const config = envParse(process.env, {
   server: {
     port: {

@@ -75,27 +75,17 @@ type IsConfigProperty<P> = P extends {
   ? true
   : false;
 
-type HasOptional<P> = P extends { optional: infer O }
-  ? true extends O
-    ? true
-    : false
-  : false;
+type HasOptional<P> = P extends { optional: infer O } ? (true extends O ? true : false) : false;
 
 type HasDefault<P> = P extends { default: infer _ } ? true : false;
 
 type IsOptionalWithoutDefault<P> =
-  HasOptional<P> extends true
-    ? HasDefault<P> extends true
-      ? false
-      : true
-    : false;
+  HasOptional<P> extends true ? (HasDefault<P> extends true ? false : true) : false;
 
 /**
  * Check if an object is a config property (has format, env, and optionally default).
  */
-function isConfigProperty(
-  value: unknown
-): value is ConfigProperty<StandardSchemaV1> {
+function isConfigProperty(value: unknown): value is ConfigProperty<StandardSchemaV1> {
   return (
     typeof value === "object" &&
     value !== null &&
@@ -114,14 +104,14 @@ function isConfigProperty(
  */
 export function envParse<T extends ConfigDefinition>(
   env: Record<string, string | undefined>,
-  config: T & ConfigFrom<T>
+  config: T & ConfigFrom<T>,
 ): InferConfig<T> {
   const result: Record<string, unknown> = {};
   const issues: StandardSchemaV1.Issue[] = [];
 
   function validateProperty(
     property: ConfigProperty<StandardSchemaV1>,
-    envVars: Record<string, string | undefined>
+    envVars: Record<string, string | undefined>,
   ): { issues: StandardSchemaV1.Issue[]; value?: unknown } {
     const propertyIssues: StandardSchemaV1.Issue[] = [];
     const envValue = envVars[property.env];
@@ -157,7 +147,7 @@ export function envParse<T extends ConfigDefinition>(
           ...issue,
           path: issue.path ? [property.env, ...issue.path] : [property.env],
           message: `${property.env}: ${issue.message}`,
-        }))
+        })),
       );
 
       return { issues: propertyIssues };
@@ -170,12 +160,9 @@ export function envParse<T extends ConfigDefinition>(
     key: string,
     property: ConfigProperty<StandardSchemaV1>,
     envVars: Record<string, string | undefined>,
-    target: Record<string, unknown>
+    target: Record<string, unknown>,
   ): void {
-    const { issues: propertyIssues, value: validatedValue } = validateProperty(
-      property,
-      envVars
-    );
+    const { issues: propertyIssues, value: validatedValue } = validateProperty(property, envVars);
 
     if (propertyIssues.length > 0) {
       issues.push(...propertyIssues);
@@ -190,7 +177,7 @@ export function envParse<T extends ConfigDefinition>(
   function processConfig(
     configObj: ConfigDefinition,
     envVars: Record<string, string | undefined>,
-    target: Record<string, unknown>
+    target: Record<string, unknown>,
   ): void {
     for (const [key, value] of Object.entries(configObj)) {
       if (isConfigProperty(value)) {

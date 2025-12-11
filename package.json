@@ -1,23 +1,36 @@
 {
-	"name": "envsafe",
-	"version": "0.0.1",
-	"type": "module",
-	"private": true,
-	"exports": {
-		".": "./src/index.ts"
-	},
-	"files": [
-		"!**/*.test.ts"
-	],
-	"scripts": {},
-	"devDependencies": {
-		"arktype": "latest",
-		"typescript": "latest",
-		"vitest": "latest",
-		"@types/bun": "latest"
-	},
-	"dependencies": {
-		"@standard-schema/spec": "^1.0.0"
-	},
-	"module": "src/index.ts"
+  "name": "envsafe",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "!**/*.test.ts"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint --type-aware && oxfmt --check",
+    "fmt": "oxfmt",
+    "release": "npm version",
+    "release:patch": "npm version patch",
+    "release:minor": "npm version minor",
+    "release:major": "npm version major",
+    "release:beta": "npm version prerelease --preid=beta"
+  },
+  "devDependencies": {
+    "arktype": "latest",
+    "typescript": "latest",
+    "vitest": "latest",
+    "@types/bun": "latest",
+    "oxfmt": "^0.17.0",
+    "oxlint": "^1.32.0",
+    "oxlint-tsgolint": "^0.8.4"
+  },
+  "dependencies": {
+    "@standard-schema/spec": "^1.0.0"
+  },
+  "module": "src/index.ts"
 }

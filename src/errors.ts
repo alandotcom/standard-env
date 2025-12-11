@@ -12,18 +12,13 @@ export class EnvValidationError extends Error {
     Error.captureStackTrace(this, EnvValidationError);
   }
 
-  private static formatMessage(
-    issues: readonly StandardSchemaV1.Issue[],
-    vendor: string
-  ): string {
+  private static formatMessage(issues: readonly StandardSchemaV1.Issue[], vendor: string): string {
     const header = `Environment validation failed (using ${vendor}):`;
     const formattedIssues = issues
       .map((issue) => {
         const path = issue.path
           ? issue.path
-              .map((segment) =>
-                typeof segment === "object" ? segment.key : segment
-              )
+              .map((segment) => (typeof segment === "object" ? segment.key : segment))
               .join(".")
           : "ENV";
         return `  - ${path}: ${issue.message}`;
@@ -37,7 +32,7 @@ export class EnvValidationError extends Error {
 export class AsyncValidationError extends Error {
   constructor() {
     super(
-      "Async validation is not supported. Environment variables must be validated synchronously."
+      "Async validation is not supported. Environment variables must be validated synchronously.",
     );
     this.name = "AsyncValidationError";
 

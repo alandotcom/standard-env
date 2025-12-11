@@ -421,16 +421,12 @@ describe("envParse", () => {
           env: "PORT",
           optional: true,
         },
-      }
+      },
     );
 
     expect(result.maybePort).toBeUndefined();
-    const optionalCheck: typeof result.maybePort extends number | undefined
-      ? true
-      : false = true;
-    const nonAssignableCheck: typeof result.maybePort extends number
-      ? true
-      : false = false;
+    const optionalCheck: typeof result.maybePort extends number | undefined ? true : false = true;
+    const nonAssignableCheck: typeof result.maybePort extends number ? true : false = false;
     expect(optionalCheck).toBe(true);
     expect(nonAssignableCheck).toBe(false);
   });
@@ -445,7 +441,7 @@ describe("envParse", () => {
           env: "PORT",
           optional: true,
         },
-      }
+      },
     );
 
     expect(result.maybePortWithDefault).toBe(3000);
@@ -469,7 +465,7 @@ describe("envParse", () => {
             optional: true,
           },
         },
-      }
+      },
     );
 
     const origins: string[] = result.server.allowedOrigins;
@@ -506,7 +502,7 @@ describe("envParse", () => {
         expect.arrayContaining([
           expect.stringContaining("PORT"),
           expect.stringContaining("NODE_ENV"),
-        ])
+        ]),
       );
     }
   });
