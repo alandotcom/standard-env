@@ -1,0 +1,23 @@
+{
+	"name": "envsafe",
+	"version": "0.0.1",
+	"type": "module",
+	"private": true,
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"files": [
+		"!**/*.test.ts"
+	],
+	"scripts": {},
+	"devDependencies": {
+		"arktype": "latest",
+		"typescript": "latest",
+		"vitest": "latest",
+		"@types/bun": "latest"
+	},
+	"dependencies": {
+		"@standard-schema/spec": "^1.0.0"
+	},
+	"module": "src/index.ts"
+}

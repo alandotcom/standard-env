@@ -1,0 +1,8 @@
+{
+  "extends": "@fountain/tsconfig/node.json",
+  "compilerOptions": {
+    // Package-specific overrides if needed
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "**/*.d.ts"]
+}
