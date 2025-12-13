@@ -1,39 +1,45 @@
 {
-  "name": "envsafe",
-  "version": "0.0.1",
-  "type": "module",
-  "private": true,
-  "exports": {
-    ".": "./src/index.ts"
-  },
-  "files": [
-    "!**/*.test.ts"
-  ],
-  "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "typecheck": "tsc --noEmit",
-    "lint": "oxlint --type-aware && oxfmt --check",
-    "fmt": "oxfmt",
-    "test": "vitest",
-    "release": "npm version",
-    "release:patch": "npm version patch",
-    "release:minor": "npm version minor",
-    "release:major": "npm version major",
-    "release:beta": "npm version prerelease --preid=beta"
-  },
-  "devDependencies": {
-    "arktype": "^2",
-    "valibot": "^1",
-    "zod": "^4",
-    "typescript": "5.9.3",
-    "vitest": "4.0.15",
-    "@types/bun": "1.3.4",
-    "oxfmt": "^0.17.0",
-    "oxlint": "^1.32.0",
-    "oxlint-tsgolint": "^0.8.4"
-  },
-  "dependencies": {
-    "@standard-schema/spec": "^1.0.0"
-  },
-  "module": "src/index.ts"
+	"name": "standard-env",
+	"version": "0.0.1",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json",
+		"typecheck": "tsc --noEmit",
+		"lint": "oxlint --type-aware && oxfmt --check",
+		"fmt": "oxfmt",
+		"test": "vitest",
+		"prepack": "bun run build",
+		"release": "npm version",
+		"release:patch": "npm version patch",
+		"release:minor": "npm version minor",
+		"release:major": "npm version major",
+		"release:beta": "npm version prerelease --preid=beta"
+	},
+	"devDependencies": {
+		"arktype": "^2",
+		"valibot": "^1",
+		"zod": "^4",
+		"typescript": "5.9.3",
+		"vitest": "4.0.15",
+		"@types/bun": "1.3.4",
+		"oxfmt": "^0.17.0",
+		"oxlint": "^1.32.0",
+		"oxlint-tsgolint": "^0.8.4"
+	},
+	"dependencies": {
+		"@standard-schema/spec": "^1.0.0"
+	}
 }
