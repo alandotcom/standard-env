@@ -1,5 +1,7 @@
 # Standard Env
 
+![NPM Version](https://img.shields.io/npm/v/standardenv)
+
 Type-safe, structured environment variable parsing using [Standard Schema](https://standardschema.dev/) compatible validation libraries.
 
 ## Features
