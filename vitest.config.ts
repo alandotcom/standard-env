@@ -1,9 +1,9 @@
+// oxlint-disable-next-line eslint-plugin-import(extensions)
 import { defineProject } from "vitest/config";
 
 export default defineProject({
-  name: "@fountain/env",
   test: {
-    // Inherits globals from root config
     environment: "node",
+    exclude: ["dist/**", "node_modules/**"],
   },
 });

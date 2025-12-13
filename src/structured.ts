@@ -1,7 +1,7 @@
 // biome-ignore-all lint/suspicious/noExplicitAny: ___
 
 import type { StandardSchemaV1 } from "@standard-schema/spec";
-import { AsyncValidationError, EnvValidationError } from "./errors.ts";
+import { AsyncValidationError, EnvValidationError } from "./errors.js";
 
 /**
  * A single configuration property.  The type of `default` is the
@@ -108,6 +108,7 @@ export function envParse<T extends ConfigDefinition>(
 ): InferConfig<T> {
   const result: Record<string, unknown> = {};
   const issues: StandardSchemaV1.Issue[] = [];
+  const vendors = new Set<string>();
 
   function validateProperty(
     property: ConfigProperty<StandardSchemaV1>,
@@ -115,6 +116,10 @@ export function envParse<T extends ConfigDefinition>(
   ): { issues: StandardSchemaV1.Issue[]; value?: unknown } {
     const propertyIssues: StandardSchemaV1.Issue[] = [];
     const envValue = envVars[property.env];
+    const standardProps = property.format?.["~standard"];
+    if (standardProps && typeof standardProps.vendor === "string") {
+      vendors.add(standardProps.vendor);
+    }
 
     // If env var is not set, use default (which is already the correct output type)
     if (envValue === undefined) {
@@ -135,7 +140,14 @@ export function envParse<T extends ConfigDefinition>(
     }
 
     // If env var is set, validate it (it's always a string from environment)
-    const validationResult = property.format["~standard"].validate(envValue);
+    const validationResult = standardProps?.validate(envValue);
+    if (!validationResult) {
+      propertyIssues.push({
+        message: `Validator for ${property.env} is not Standard Schema compliant`,
+        path: [property.env],
+      });
+      return { issues: propertyIssues };
+    }
 
     if (validationResult instanceof Promise) {
       throw new AsyncValidationError();
@@ -184,6 +196,7 @@ export function envParse<T extends ConfigDefinition>(
         handleConfigProperty(key, value, envVars, target);
       } else if (typeof value === "object" && value !== null) {
         target[key] = {};
+        // oxlint-disable-next-line typescript-eslint(no-unsafe-type-assertion)
         processConfig(value, envVars, target[key] as Record<string, unknown>);
       }
     }
@@ -191,11 +204,19 @@ export function envParse<T extends ConfigDefinition>(
 
   // Cast the config to `ConfigDefinition` for runtime processing; at compile
   // time it satisfies `ConfigFrom<T>`.
+  // oxlint-disable-next-line typescript-eslint(no-unsafe-type-assertion)
   processConfig(config as unknown as ConfigDefinition, env, result);
 
   if (issues.length > 0) {
-    throw new EnvValidationError(issues, "arktype");
+    const vendorLabel =
+      vendors.size === 0
+        ? "unknown"
+        : vendors.size === 1
+          ? vendors.values().next().value!
+          : `mixed(${Array.from(vendors).join(",")})`;
+    throw new EnvValidationError(issues, vendorLabel);
   }
 
+  // oxlint-disable-next-line typescript-eslint(no-unsafe-type-assertion)
   return result as InferConfig<T>;
 }
