@@ -1,4 +1,3 @@
-# @fountain/env
 
 Type-safe, structured environment variable parsing using [Standard Schema](https://standardschema.dev/) compatible validation libraries.
 
@@ -486,40 +485,3 @@ export const config = envParse(process.env, {
 // }
 ```
 
-## Migration from Old `parse` Function
-
-If you're upgrading from the old `parse` function:
-
-```typescript
-// Old way
-const schema = type({
-  PORT: 'string.numeric.parse',
-  DATABASE_URL: 'string',
-  'DEBUG?': 'string'
-});
-const config = parse(process.env, schema, { defaults: { PORT: 3000 } });
-
-// New way
-const config = envParse(process.env, {
-  server: {
-    port: {
-      format: type('string.numeric.parse'),
-      default: 3000,
-      env: 'PORT'
-    }
-  },
-  db: {
-    url: {
-      format: type('string'),
-      env: 'DATABASE_URL'
-    }
-  },
-  debug: {
-    format: type('string'),
-    env: 'DEBUG',
-    optional: true
-  }
-});
-```
-
-The new approach provides better organization, clearer intent, and the same type safety!
