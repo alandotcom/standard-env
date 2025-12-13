@@ -6,9 +6,9 @@
     "rootDir": "src",
     "allowImportingTsExtensions": false,
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
+    "declarationMap": false,
+    "sourceMap": false
   },
   "include": ["src"],
-  "exclude": ["**/*.test.ts*"],
+  "exclude": ["**/*.test.ts*"]
 }
