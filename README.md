@@ -14,7 +14,7 @@ Type-safe, structured environment variable parsing using [Standard Schema](https
 ## Installation
 
 ```bash
-bun add standard-env
+bun add standardenv
 
 # Also install your preferred validation library
 bun add arktype  # or zod, valibot, etc.
@@ -23,7 +23,7 @@ bun add arktype  # or zod, valibot, etc.
 ## Quick Start
 
 ```typescript
-import { envParse } from "standard-env";
+import { envParse } from "standardenv";
 import { type } from "arktype";
 
 const config = envParse(process.env, {
@@ -140,7 +140,7 @@ Environment variables are strings, but you often need other types:
 ### Common Transformations with arktype
 
 ```typescript
-import { envParse } from "standard-env";
+import { envParse } from "standardenv";
 import { type } from "arktype";
 
 const config = envParse(process.env, {
@@ -314,7 +314,7 @@ const config = envParse(process.env, {
 Get clear error messages for validation failures:
 
 ```typescript
-import { EnvValidationError } from "standard-env";
+import { EnvValidationError } from "standardenv";
 
 try {
   const config = envParse(process.env, {
@@ -400,7 +400,7 @@ const config = envParse(process.env, {
 ## Complete Example
 
 ```typescript
-import { envParse } from "standard-env";
+import { envParse } from "standardenv";
 import { type } from "arktype";
 
 export const config = envParse(process.env, {
