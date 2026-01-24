@@ -11,15 +11,7 @@
   },
   "rules": {
     "typescript/no-explicit-any": "error",
-    "import/extensions": [
-      "error",
-      "always",
-      {
-        "js": "always",
-        "ts": "never",
-        "tsx": "never"
-      }
-    ]
+    "import/extensions": "off"
   },
   "overrides": [
     {

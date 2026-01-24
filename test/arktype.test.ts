@@ -1,7 +1,7 @@
 import { type } from "arktype";
 import { describe, expect, it } from "vitest";
-import { EnvValidationError } from "../src/errors.ts";
-import { envParse } from "../src/structured.ts";
+import { EnvValidationError } from "../src/errors.js";
+import { envParse } from "../src/structured.js";
 
 describe("envParse (arktype)", () => {
   it("parses simple flat config", () => {

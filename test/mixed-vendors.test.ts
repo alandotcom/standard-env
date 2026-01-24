@@ -1,8 +1,8 @@
 import { type } from "arktype";
 import { z } from "zod";
 import { describe, expect, it } from "vitest";
-import { EnvValidationError } from "../src/errors.ts";
-import { envParse } from "../src/structured.ts";
+import { EnvValidationError } from "../src/errors.js";
+import { envParse } from "../src/structured.js";
 
 describe("envParse (mixed vendors)", () => {
   it("labels vendor as mixed when multiple validators used", () => {
