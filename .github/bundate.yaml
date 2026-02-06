@@ -1,0 +1,16 @@
+# bundate configuration
+# See https://github.com/fountain-bio/bundate for documentation
+
+# Groups allow you to batch dependency updates together
+groups:
+  # Update all dependencies together by default
+  - name: all
+    patterns:
+      - "*"
+
+# Uncomment to set a custom schedule (default: daily)
+# schedule: weekly
+
+# Uncomment to ignore specific packages
+# ignore:
+#   - some-package
