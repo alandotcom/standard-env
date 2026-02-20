@@ -150,7 +150,9 @@ export function envParse<T extends ConfigDefinition>(
     }
 
     if (validationResult instanceof Promise) {
-      throw new AsyncValidationError();
+      const error = new AsyncValidationError();
+      Error.captureStackTrace(error, envParse);
+      throw error;
     }
 
     if (validationResult.issues) {
@@ -214,7 +216,9 @@ export function envParse<T extends ConfigDefinition>(
         : vendors.size === 1
           ? vendors.values().next().value!
           : `mixed(${Array.from(vendors).join(",")})`;
-    throw new EnvValidationError(issues, vendorLabel);
+    const error = new EnvValidationError(issues, vendorLabel);
+    Error.captureStackTrace(error, envParse);
+    throw error;
   }
 
   // oxlint-disable-next-line typescript-eslint(no-unsafe-type-assertion)
